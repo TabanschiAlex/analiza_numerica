@@ -1,14 +1,20 @@
 var Main = /** @class */ (function () {
     function Main() {
-        this.A = [[71, 2, 3, -4, 4, 241], [4, 72, -5, 5, 2, 396], [-3, 2, 73, 1, -3, 130], [3, 2, 1, 74, 1, 324], [4, -4, 3, 2, 75, 531]];
+        this.A = [
+            [71, 2, 3, -4, 4, 241],
+            [4, 72, -5, 5, 2, 396],
+            [-3, 2, 73, 1, -3, 130],
+            [3, 2, 1, 74, 1, 324],
+            [4, -4, 3, 2, 75, 531]
+        ];
         this.a = [];
         this.x = [];
         this.n = 5;
         this.det = 1;
-        this.initArrays();
+        this.initArray();
         this.output();
     }
-    Main.prototype.initArrays = function () {
+    Main.prototype.initArray = function () {
         for (var i = 0; i < this.A.length; i++) {
             this.a.push([]);
         }
