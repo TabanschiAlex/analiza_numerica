@@ -10,6 +10,7 @@ var Main = /** @class */ (function () {
         this.a = [];
         this.x = [];
         this.n = 5;
+        this.aux = 0;
         this.det = 1;
         this.initArray();
         this.output();
@@ -32,7 +33,7 @@ var Main = /** @class */ (function () {
             var temp = [];
             for (var j = 0; j < this.n; j++) {
                 this.a[i][j] = this.A[i][j];
-                temp.push(this.a[i][j]);
+                temp.push(Number(this.a[i][j].toFixed(2)));
             }
             this.a[i][this.n] = this.A[i][this.n];
             temp.push(this.a[i][this.n]);
@@ -61,41 +62,47 @@ var Main = /** @class */ (function () {
             for (var j = l + 1; j <= this.n; j++)
                 this.a[l][j] /= this.a[l][l];
             this.a[l][l] = 1;
-            for (var i = l + 1; i < this.n; i++) {
-                for (var j = l + 1; j <= this.n; j++)
-                    this.a[i][j] = this.a[i][j] - this.a[i][l] * this.a[l][j];
+            for (var i = 0; i < this.n; i++) {
+                if (i !== l) {
+                    for (var j = l + 1; j <= this.n; j++)
+                        this.a[i][j] = this.a[i][j] - this.a[i][l] * this.a[l][j];
+                }
             }
+            for (var i = 0; i < l; i++)
+                this.a[i][l] = 0;
             for (var i = l + 1; i < this.n; i++)
                 this.a[i][l] = 0;
-            console.log('The system in step ' + (l + 1));
+            console.log('\n The system in step ' + (l + 1));
             for (var i = 0; i < this.n; i++) {
+                var temp = [];
                 for (var j = 0; j < this.n; j++)
-                    console.log(this.a[i][j]);
-                console.log(this.a[i][this.n]);
+                    temp.push(Number((this.a[i][j]).toFixed(2)));
+                temp.push(this.a[i][this.n]);
+                console.log(temp);
             }
         }
         for (var j = 0; j < this.n; j++)
             this.det = this.det * this.a[j][j];
-        console.log('The determinant of the matrix is ' + this.det);
+        console.log('\n The determinant of the matrix is ' + this.det);
     };
     Main.prototype.step2 = function () {
-        this.x[this.n - 1] = this.a[this.n - 1][this.n];
-        for (var i = this.n - 2; i >= 0; i--) {
-            this.aux = 0;
-            for (var j = i + 1; j < this.n; j++)
-                this.aux = this.aux + this.a[i][j] * this.x[j];
-            this.x[i] = this.a[i][this.n] - this.aux;
+        var tempAux = [];
+        var tempResolve = [];
+        for (var i = 0; i < this.n; i++) {
+            this.x[i] = this.a[i][this.n];
         }
-        console.log('System resolve:');
+        console.log('\n System resolve:');
         for (var i = 0; i < this.n; i++)
-            console.log(this.x[i]);
-        console.log('Verification');
+            tempResolve.push(Number(this.x[i].toFixed(2)));
+        console.log(tempResolve);
+        console.log('\n Verification:');
         for (var i = 0; i < this.n; i++) {
             this.aux = -this.A[i][this.n];
             for (var j = 0; j < this.n; j++)
                 this.aux = this.aux + this.A[i][j] * this.x[j];
-            console.log(this.aux);
+            tempAux.push(this.aux);
         }
+        console.log(tempAux);
     };
     return Main;
 }());

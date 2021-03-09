@@ -9,7 +9,7 @@ class Main {
     a: number[][] = [];
     x: number[] = [];
     n: number = 5;
-    aux: number;
+    aux: number = 0;
     det: number = 1;
 
     constructor() {
@@ -40,7 +40,7 @@ class Main {
 
             for(let j = 0; j < this.n; j++) {
                 this.a[i][j] = this.A[i][j];
-                temp.push(this.a[i][j]);
+                temp.push(Number(this.a[i][j].toFixed(2)));
             }
 
             this.a[i][this.n] = this.A[i][this.n];
@@ -76,20 +76,27 @@ class Main {
 
             this.a[l][l] = 1;
 
-            for(let i = l+1; i < this.n; i++) {
-                for(let j = l+1; j <= this.n; j++)
-                    this.a[i][j] = this.a[i][j] - this.a[i][l] * this.a[l][j];
+            for(let i = 0; i < this.n; i++) {
+                if (i !== l) {
+                    for(let j = l+1; j <= this.n; j++)
+                        this.a[i][j] = this.a[i][j] - this.a[i][l] * this.a[l][j];
+                }
             }
+
+            for(let i = 0; i < l; i++)
+                this.a[i][l] = 0;
 
             for(let i = l+1; i < this.n; i++)
                 this.a[i][l] = 0;
-
-            console.log('The system in step ' + (l+1));
+            console.log('\n The system in step ' + (l+1));
 
             for(let i = 0; i < this.n; i++) {
+                const temp: number[] = [];
+
                 for(let j = 0; j < this.n; j++)
-                    console.log(this.a[i][j])
-                console.log(this.a[i][this.n])
+                    temp.push(Number((this.a[i][j]).toFixed(2)));
+                temp.push(this.a[i][this.n])
+                console.log(temp)
             }
 
         }
@@ -97,36 +104,36 @@ class Main {
         for (let j = 0; j < this.n; j++)
             this.det = this.det * this.a[j][j];
 
-        console.log('The determinant of the matrix is ' + this.det);
+        console.log('\n The determinant of the matrix is ' + this.det);
     }
 
     public step2(): void {
-        this.x[this.n - 1] = this.a[this.n - 1][this.n];
+        const tempAux: number[] = [];
+        const tempResolve: number[] = [];
 
-        for(let i = this.n-2; i >= 0; i--) {
-            this.aux = 0;
-
-            for(let j = i+1; j < this.n; j++)
-                this.aux = this.aux + this.a[i][j] * this.x[j];
-            this.x[i] = this.a[i][this.n] - this.aux;
+        for(let i = 0; i < this.n; i++) {
+            this.x[i] = this.a[i][this.n];
         }
 
-        console.log('System resolve:');
+        console.log('\n System resolve:');
 
         for(let i = 0; i < this.n; i++)
-            console.log(this.x[i]);
+            tempResolve.push(Number(this.x[i].toFixed(2)));
 
-        console.log('Verification')
+        console.log(tempResolve);
 
-        for(let i = 0; i < this.n; i++){
+        console.log('\n Verification:')
+
+        for(let i = 0; i < this.n; i++) {
             this.aux = -this.A[i][this.n];
 
             for(let j = 0; j < this.n; j++)
                 this.aux = this.aux + this.A[i][j] * this.x[j];
 
-            console.log(this.aux);
+            tempAux.push(this.aux);
         }
 
+        console.log(tempAux);
     }
 
 }
