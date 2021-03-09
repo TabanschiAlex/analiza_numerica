@@ -135,7 +135,6 @@ class Main {
 
         console.log(tempAux);
     }
-
 }
 
 const main = new Main();
