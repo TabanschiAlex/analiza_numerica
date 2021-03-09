@@ -197,20 +197,18 @@ class Equations {
         document.getElementById('container').innerHTML = tempArr.join()
     }
 
-    createTale(): void {
-        const temp = ['1', '2', '3'];
-        const temp2 = ['1a', '2a', '3a'];
-
+    createTable(arr): void {
         const table = document.getElementById('table-body');
-        for (const row of temp) {
-            const tr = document.createElement('tr');
-            for(const col of temp2) {
-                const td = document.createElement('td');
-                td.innerHTML = col;
-                tr.append(td);
-            }
-            table.append(tr)
+        const tr = document.createElement('tr');
+
+        for(const col of arr) {
+            const td = document.createElement('td');
+            td.innerHTML = col;
+            td.style.padding = '10px'
+            tr.append(td);
         }
+
+        table.append(tr);
     }
 
     iterations(a, b): number { // iteratiilor
@@ -238,29 +236,34 @@ equations.createArr();
 const n: number = equations.separation();
 equations.showData(n);
 
+
+
 for (let i = 0; i < n; i++) {
     let x = equations.bisection(equations.arr[i].left, equations.arr[i].right);
     console.log(`Bisectiei ${x.toFixed(12)} ${equations.k} ${equations.f(x)}`);
+    equations.createTable(['Bisectiei', x.toFixed(12), equations.k, equations.f(x)])
 
     x = equations.newton(equations.arr[i].left, equations.arr[i].right);
     console.log(`Tangentei ${x.toFixed(12)} ${equations.k} ${equations.f(x)}`);
+    equations.createTable(['Tangentei', x.toFixed(12), equations.k, equations.f(x)]);
 
     x = equations.mNewton(equations.arr[i].left, equations.arr[i].right);
     console.log(`Modificata tangentei ${x.toFixed(12)} ${equations.k} ${equations.f(x)}`);
+    equations.createTable(['Modificata tangentei', x.toFixed(12), equations.k, equations.f(x)]);
 
     x = equations.secants(equations.arr[i].left, equations.arr[i].right);
     console.log(`Secantelor ${x.toFixed(12)} ${equations.k} ${equations.f(x)}`);
+    equations.createTable(['Secantelor', x.toFixed(12), equations.k, equations.f(x)]);
 
     x = equations.coarderlor(equations.arr[i].left, equations.arr[i].right);
     console.log(`Coardelor ${x.toFixed(12)} ${equations.k} ${equations.f(x)}`);
+    equations.createTable(['Coardelor', x.toFixed(12), equations.k, equations.f(x)]);
 
     x = equations.mixt(equations.arr[i].left, equations.arr[i].right);
     console.log(`Mixta ${x.toFixed(12)} ${equations.k} ${equations.f(x)}`);
+    equations.createTable(['Mixta', x.toFixed(12), equations.k, equations.f(x)]);
 
-    x = equations.bisection(equations.arr[i].left, equations.arr[i].right);
-    console.log(`Bisectiei ${x.toFixed(12)} ${equations.k} ${equations.f(x)}`);
-
-    x = equations.bisection(equations.arr[i].left, equations.arr[i].right);
+    x = equations.iterations(equations.arr[i].left, equations.arr[i].right);
     console.log(`Iteratiei ${x.toFixed(12)} ${equations.k} ${equations.f(x)}`);
-
+    equations.createTable(['Iteratiei', x.toFixed(12), equations.k, equations.f(x)]);
 }

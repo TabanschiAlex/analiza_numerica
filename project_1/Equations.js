@@ -149,21 +149,17 @@ var Equations = /** @class */ (function () {
         }
         document.getElementById('container').innerHTML = tempArr.join();
     };
-    Equations.prototype.createTale = function () {
-        var temp = ['1', '2', '3'];
-        var temp2 = ['1a', '2a', '3a'];
+    Equations.prototype.createTable = function (arr) {
         var table = document.getElementById('table-body');
-        for (var _i = 0, temp_1 = temp; _i < temp_1.length; _i++) {
-            var row = temp_1[_i];
-            var tr = document.createElement('tr');
-            for (var _a = 0, temp2_1 = temp2; _a < temp2_1.length; _a++) {
-                var col = temp2_1[_a];
-                var td = document.createElement('td');
-                td.innerHTML = col;
-                tr.append(td);
-            }
-            table.append(tr);
+        var tr = document.createElement('tr');
+        for (var _i = 0, arr_1 = arr; _i < arr_1.length; _i++) {
+            var col = arr_1[_i];
+            var td = document.createElement('td');
+            td.innerHTML = col;
+            td.style.padding = '10px';
+            tr.append(td);
         }
+        table.append(tr);
     };
     Equations.prototype.iterations = function (a, b) {
         this.k = 0;
@@ -189,18 +185,23 @@ equations.showData(n);
 for (var i = 0; i < n; i++) {
     var x = equations.bisection(equations.arr[i].left, equations.arr[i].right);
     console.log("Bisectiei " + x.toFixed(12) + " " + equations.k + " " + equations.f(x));
+    equations.createTable(['Bisectiei', x.toFixed(12), equations.k, equations.f(x)]);
     x = equations.newton(equations.arr[i].left, equations.arr[i].right);
     console.log("Tangentei " + x.toFixed(12) + " " + equations.k + " " + equations.f(x));
+    equations.createTable(['Tangentei', x.toFixed(12), equations.k, equations.f(x)]);
     x = equations.mNewton(equations.arr[i].left, equations.arr[i].right);
     console.log("Modificata tangentei " + x.toFixed(12) + " " + equations.k + " " + equations.f(x));
+    equations.createTable(['Modificata tangentei', x.toFixed(12), equations.k, equations.f(x)]);
     x = equations.secants(equations.arr[i].left, equations.arr[i].right);
     console.log("Secantelor " + x.toFixed(12) + " " + equations.k + " " + equations.f(x));
+    equations.createTable(['Secantelor', x.toFixed(12), equations.k, equations.f(x)]);
     x = equations.coarderlor(equations.arr[i].left, equations.arr[i].right);
     console.log("Coardelor " + x.toFixed(12) + " " + equations.k + " " + equations.f(x));
+    equations.createTable(['Coardelor', x.toFixed(12), equations.k, equations.f(x)]);
     x = equations.mixt(equations.arr[i].left, equations.arr[i].right);
     console.log("Mixta " + x.toFixed(12) + " " + equations.k + " " + equations.f(x));
-    x = equations.bisection(equations.arr[i].left, equations.arr[i].right);
-    console.log("Bisectiei " + x.toFixed(12) + " " + equations.k + " " + equations.f(x));
-    x = equations.bisection(equations.arr[i].left, equations.arr[i].right);
+    equations.createTable(['Mixta', x.toFixed(12), equations.k, equations.f(x)]);
+    x = equations.iterations(equations.arr[i].left, equations.arr[i].right);
     console.log("Iteratiei " + x.toFixed(12) + " " + equations.k + " " + equations.f(x));
+    equations.createTable(['Iteratiei', x.toFixed(12), equations.k, equations.f(x)]);
 }
