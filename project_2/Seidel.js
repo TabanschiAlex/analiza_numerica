@@ -7,11 +7,12 @@ var Seidel = /** @class */ (function () {
             [1, 3, 2, 75, 3, 4],
             [2, 1, 1, 3, 74, 5]
         ];
-        this.B = [0, 0, 0, 0, 0];
+        this.initialValues = [0, 0, 0, 0, 0];
         this.eps = eps;
         this.resolve();
     }
     Seidel.prototype.init = function () {
+        console.log('\nInitial Matrix:');
         for (var i = 0; i < this.matrixA.length; i++) {
             var temp = [];
             for (var j = 0; j < this.matrixA.length; j++) {
@@ -41,16 +42,16 @@ var Seidel = /** @class */ (function () {
             var temp = [];
             temp.push(count + 1 + ') ');
             for (var i = 0; i < this.matrixA.length; i++) {
-                y = this.B[i];
-                this.B[i] = this.matrixA[i][this.matrixA.length];
+                y = this.initialValues[i];
+                this.initialValues[i] = this.matrixA[i][this.matrixA.length];
                 for (var j = 0; j < this.matrixA.length; j++) {
                     if (j != i)
-                        this.B[i] = this.B[i] - this.matrixA[i][j] * this.B[j];
+                        this.initialValues[i] = this.initialValues[i] - this.matrixA[i][j] * this.initialValues[j];
                 }
-                this.B[i] = this.B[i] / this.matrixA[i][i];
-                if (Math.abs(this.B[i] - y) <= this.eps)
+                this.initialValues[i] = this.initialValues[i] / this.matrixA[i][i];
+                if (Math.abs(this.initialValues[i] - y) <= this.eps)
                     flag++;
-                temp.push(this.B[i]);
+                temp.push(this.initialValues[i]);
             }
             console.log(temp);
             count++;
@@ -64,8 +65,8 @@ var Seidel = /** @class */ (function () {
         this.calculate();
         console.log('\n The solution is as follows:\n');
         for (var i = 0; i < this.matrixA.length; i++)
-            console.log('x' + i + ' = ' + this.B[i]);
+            console.log('x' + i + ' = ' + this.initialValues[i]);
     };
     return Seidel;
 }());
-var seidel = new Seidel(0.0001);
+new Seidel(0.0001);

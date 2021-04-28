@@ -1,14 +1,13 @@
 class Seidel {
-    eps: number;
-
-    matrixA: number[][] = [
+    readonly eps: number;
+    readonly matrixA: number[][] = [
         [72, 2, 4, 2, 5, 1],
         [3, 73, 1, 3, 1, 2],
         [4, 1, 74, 1, 2, 3],
         [1, 3, 2, 75, 3, 4],
         [2, 1, 1, 3, 74, 5]
     ];
-    B: number[] = [0, 0, 0, 0, 0];
+    initialValues: number[] = [0, 0, 0, 0, 0];
 
     constructor(eps: number) {
         this.eps = eps;
@@ -16,6 +15,8 @@ class Seidel {
     }
 
     init(): void {
+        console.log('\nInitial Matrix:')
+
         for (let i = 0; i < this.matrixA.length; i++) {
             const temp: number[] = [];
 
@@ -51,19 +52,19 @@ class Seidel {
             temp.push(count + 1 + ') ');
 
             for (let i = 0;i < this.matrixA.length; i++) {
-                y = this.B[i];
-                this.B[i] = this.matrixA[i][this.matrixA.length];
+                y = this.initialValues[i];
+                this.initialValues[i] = this.matrixA[i][this.matrixA.length];
 
                 for (let j = 0;j < this.matrixA.length; j++) {
                     if (j != i)
-                        this.B[i] = this.B[i] - this.matrixA[i][j] * this.B[j];
+                        this.initialValues[i] = this.initialValues[i] - this.matrixA[i][j] * this.initialValues[j];
                 }
 
-                this.B[i] = this.B[i] / this.matrixA[i][i];
+                this.initialValues[i] = this.initialValues[i] / this.matrixA[i][i];
 
-                if (Math.abs(this.B[i]-y) <= this.eps) flag++;
+                if (Math.abs(this.initialValues[i]-y) <= this.eps) flag++;
 
-                temp.push(this.B[i]);
+                temp.push(this.initialValues[i]);
             }
 
             console.log(temp)
@@ -83,9 +84,9 @@ class Seidel {
         console.log('\n The solution is as follows:\n');
 
         for (let i = 0;i < this.matrixA.length; i++)
-            console.log('x' + i + ' = ' + this.B[i]);
+            console.log('x' + i + ' = ' + this.initialValues[i]);
     }
 
 }
 
-const seidel = new Seidel(0.0001);
+new Seidel(0.0001);
