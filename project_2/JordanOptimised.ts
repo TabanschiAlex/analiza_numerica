@@ -143,4 +143,4 @@ class JordanOptimised {
     }
 }
 
-const main = new JordanOptimised();
+new JordanOptimised();

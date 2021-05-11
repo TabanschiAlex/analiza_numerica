@@ -112,4 +112,4 @@ var JordanOptimised = /** @class */ (function () {
     };
     return JordanOptimised;
 }());
-var main = new JordanOptimised();
+new JordanOptimised();
