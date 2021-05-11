@@ -97,8 +97,8 @@ var Equations = /** @class */ (function () {
     };
     Equations.prototype.coarderlor = function (a, b) {
         var x, d;
-        var xO = b;
-        var x1 = a;
+        var xO = a;
+        var x1 = b;
         var f = this.f(xO);
         this.k = 1;
         do {
@@ -133,13 +133,13 @@ var Equations = /** @class */ (function () {
         return x;
     };
     Equations.prototype.f = function (x) {
-        return x * x * x + x * x - 20 * x - 20;
+        return x * x * x + 5 * (x * x) - 35 * x - 175;
     };
     Equations.prototype.fi = function (x) {
         return 1;
     };
     Equations.prototype.fpr = function (x) {
-        return 3 * x * x + 2 * x - 20;
+        return 3 * x * x + 10 * x - 35;
     };
     Equations.prototype.showData = function (val) {
         console.log(val);
@@ -161,28 +161,14 @@ var Equations = /** @class */ (function () {
         }
         table.append(tr);
     };
-    Equations.prototype.iterations = function (a, b) {
-        this.k = 0;
-        var xO = (a + b) / 2;
-        var x;
-        var d;
-        do {
-            this.k++;
-            x = equations.fi(xO);
-            if (this.f(x) === 0)
-                return x;
-            d = Math.abs(x - xO);
-            xO = x;
-        } while (d > this.eps);
-        return x;
-    };
     return Equations;
 }());
-var equations = new Equations(-10, 10, 0.1, 0);
+var equations = new Equations(-7, 7, 0.07, 0);
 equations.createArr();
 var n = equations.separation();
 equations.showData(n);
 for (var i = 0; i < n; i++) {
+    equations.createTable([equations.arr[i].left.toFixed(2) + "; " + equations.arr[i].right.toFixed(2), '', '', '']);
     var x = equations.bisection(equations.arr[i].left, equations.arr[i].right);
     console.log("Bisectiei " + x.toFixed(12) + " " + equations.k + " " + equations.f(x));
     equations.createTable(['Bisectiei', x.toFixed(12), equations.k, equations.f(x)]);
@@ -201,7 +187,7 @@ for (var i = 0; i < n; i++) {
     x = equations.mixt(equations.arr[i].left, equations.arr[i].right);
     console.log("Mixta " + x.toFixed(12) + " " + equations.k + " " + equations.f(x));
     equations.createTable(['Mixta', x.toFixed(12), equations.k, equations.f(x)]);
-    x = equations.iterations(equations.arr[i].left, equations.arr[i].right);
-    console.log("Iteratiei " + x.toFixed(12) + " " + equations.k + " " + equations.f(x));
-    equations.createTable(['Iteratiei', x.toFixed(12), equations.k, equations.f(x)]);
+    /*x = equations.iterations(equations.arr[i].left, equations.arr[i].right);
+    console.log(`Iteratiei ${x.toFixed(12)} ${equations.k} ${equations.f(x)}`);
+    equations.createTable(['Iteratiei', x.toFixed(12), equations.k, equations.f(x)]);*/
 }

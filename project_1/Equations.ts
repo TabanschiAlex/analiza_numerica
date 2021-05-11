@@ -130,8 +130,8 @@ class Equations {
 
     coarderlor(a, b): number { // coardelor
         let x: number, d: number;
-        let xO: number = b;
-        let x1: number = a;
+        let xO: number = a;
+        let x1: number = b;
         let f = this.f(xO);
         this.k = 1;
 
@@ -175,7 +175,7 @@ class Equations {
     }
 
     f (x): number {
-        return x*x*x + x*x - 20*x - 20;
+        return x*x*x + 5*(x*x) - 35*x - 175;
     }
 
     fi (x): number {
@@ -183,7 +183,7 @@ class Equations {
     }
 
     fpr (x): number {
-        return 3*x*x + 2*x - 20;
+        return 3*x*x + 10*x - 35;
     }
 
     showData(val): void {
@@ -211,7 +211,7 @@ class Equations {
         table.append(tr);
     }
 
-    iterations(a, b): number { // iteratiilor
+    /*iterations(a, b): number { // iteratiilor
         this.k = 0;
         let xO = (a + b) / 2;
         let x;
@@ -219,7 +219,7 @@ class Equations {
 
         do {
             this.k++;
-            x = equations.fi(xO);
+            /!*x = equations.fi(xO);*!/
 
             if (this.f(x) === 0) return x;
 
@@ -228,10 +228,10 @@ class Equations {
         } while (d > this.eps);
 
         return x;
-    }
+    }*/
 }
 
-const equations = new Equations(-10, 10, 0.1, 0);
+const equations = new Equations(-7, 7, 0.07, 0);
 equations.createArr();
 const n: number = equations.separation();
 equations.showData(n);
@@ -239,6 +239,7 @@ equations.showData(n);
 
 
 for (let i = 0; i < n; i++) {
+    equations.createTable([`${equations.arr[i].left.toFixed(2)}; ${equations.arr[i].right.toFixed(2)}`, '', '', ''])
     let x = equations.bisection(equations.arr[i].left, equations.arr[i].right);
     console.log(`Bisectiei ${x.toFixed(12)} ${equations.k} ${equations.f(x)}`);
     equations.createTable(['Bisectiei', x.toFixed(12), equations.k, equations.f(x)])
@@ -263,7 +264,7 @@ for (let i = 0; i < n; i++) {
     console.log(`Mixta ${x.toFixed(12)} ${equations.k} ${equations.f(x)}`);
     equations.createTable(['Mixta', x.toFixed(12), equations.k, equations.f(x)]);
 
-    x = equations.iterations(equations.arr[i].left, equations.arr[i].right);
+    /*x = equations.iterations(equations.arr[i].left, equations.arr[i].right);
     console.log(`Iteratiei ${x.toFixed(12)} ${equations.k} ${equations.f(x)}`);
-    equations.createTable(['Iteratiei', x.toFixed(12), equations.k, equations.f(x)]);
+    equations.createTable(['Iteratiei', x.toFixed(12), equations.k, equations.f(x)]);*/
 }
