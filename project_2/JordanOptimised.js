@@ -1,33 +1,39 @@
-var Main = /** @class */ (function () {
-    function Main() {
-        this.A = [
-            [71, 2, 3, -4, 4, 241],
-            [4, 72, -5, 5, 2, 396],
-            [-3, 2, 73, 1, -3, 130],
-            [3, 2, 1, 74, 1, 324],
-            [4, -4, 3, 2, 75, 531]
-        ];
+var JordanOptimised = /** @class */ (function () {
+    function JordanOptimised() {
+        var _this = this;
+        this.A = [];
         this.a = [];
         this.x = [];
         this.n = 5;
         this.aux = 0;
         this.det = 1;
-        this.initArray();
-        this.output();
+        /*"71, 2, 3, -4, 4, 241; 4, 72, -5, 5, 2, 396; -3, 2, 73, 1, -3, 130; 3, 2, 1, 74, 1, 324; 4, -4, 3, 2, 75, 531"*/
+        document.getElementById("sendBtn").addEventListener('click', function () {
+            // @ts-ignore
+            var textField = document.getElementById("textField").value;
+            var array = textField.trim().split(";");
+            _this.A = [];
+            for (var _i = 0, array_1 = array; _i < array_1.length; _i++) {
+                var elem = array_1[_i];
+                _this.A.push(elem.trim().replaceAll(" ", "").split(",").map(function (x) { return +x; }));
+            }
+            _this.initArray();
+            _this.output();
+        });
     }
-    Main.prototype.initArray = function () {
+    JordanOptimised.prototype.initArray = function () {
         for (var i = 0; i < this.A.length; i++) {
             this.a.push([]);
         }
     };
-    Main.prototype.output = function () {
+    JordanOptimised.prototype.output = function () {
         console.log('Project Nr.2 by Tabanschi Alexandru');
         console.log('Application of the Gauss Jordan (optimized) method');
         this.initial();
         this.step1();
         this.step2();
     };
-    Main.prototype.initial = function () {
+    JordanOptimised.prototype.initial = function () {
         console.log('\nInitial system:');
         for (var i = 0; i < this.n; i++) {
             var temp = [];
@@ -40,7 +46,7 @@ var Main = /** @class */ (function () {
             console.log(temp);
         }
     };
-    Main.prototype.step1 = function () {
+    JordanOptimised.prototype.step1 = function () {
         var m;
         for (var l = 0; l < this.n; l++) {
             if (this.a[l][l] == 0) {
@@ -77,7 +83,7 @@ var Main = /** @class */ (function () {
                 var temp = [];
                 for (var j = 0; j < this.n; j++)
                     temp.push(Number((this.a[i][j]).toFixed(2)));
-                temp.push(this.a[i][this.n]);
+                temp.push(Math.floor(this.a[i][this.n]));
                 console.log(temp);
             }
         }
@@ -85,7 +91,7 @@ var Main = /** @class */ (function () {
             this.det = this.det * this.a[j][j];
         console.log('\n The determinant of the matrix is ' + this.det);
     };
-    Main.prototype.step2 = function () {
+    JordanOptimised.prototype.step2 = function () {
         var tempAux = [];
         var tempResolve = [];
         for (var i = 0; i < this.n; i++) {
@@ -104,6 +110,6 @@ var Main = /** @class */ (function () {
         }
         console.log(tempAux);
     };
-    return Main;
+    return JordanOptimised;
 }());
-var main = new Main();
+var main = new JordanOptimised();

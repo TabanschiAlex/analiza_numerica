@@ -1,11 +1,5 @@
-class Main {
-    A: number[][] = [
-        [71, 2, 3, -4, 4, 241],
-        [4, 72, -5, 5, 2, 396],
-        [-3, 2, 73, 1, -3, 130],
-        [3, 2, 1, 74, 1, 324],
-        [4, -4, 3, 2, 75, 531]
-    ];
+class JordanOptimised {
+    A: number[][] = [];
     a: number[][] = [];
     x: number[] = [];
     n: number = 5;
@@ -13,8 +7,20 @@ class Main {
     det: number = 1;
 
     constructor() {
-        this.initArray();
-        this.output();
+        /*"71, 2, 3, -4, 4, 241; 4, 72, -5, 5, 2, 396; -3, 2, 73, 1, -3, 130; 3, 2, 1, 74, 1, 324; 4, -4, 3, 2, 75, 531"*/
+        document.getElementById("sendBtn").addEventListener('click', () => {
+            // @ts-ignore
+            const textField = document.getElementById("textField").value;
+            const array = textField.trim().split(";");
+            this.A = [];
+
+            for (const elem of array) {
+                this.A.push(elem.trim().replaceAll(" ", "").split(",").map(x => +x));
+            }
+
+            this.initArray();
+            this.output();
+        });
     }
 
     public initArray(): void {
@@ -95,8 +101,8 @@ class Main {
 
                 for(let j = 0; j < this.n; j++)
                     temp.push(Number((this.a[i][j]).toFixed(2)));
-                temp.push(this.a[i][this.n])
-                console.log(temp)
+                temp.push(Math.floor(this.a[i][this.n]));
+                console.log(temp);
             }
 
         }
@@ -137,4 +143,4 @@ class Main {
     }
 }
 
-const main = new Main();
+const main = new JordanOptimised();
