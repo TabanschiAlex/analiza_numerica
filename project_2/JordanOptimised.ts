@@ -2,7 +2,6 @@ class JordanOptimised {
     A: number[][] = [];
     a: number[][] = [];
     x: number[] = [];
-    n: number = 5;
     aux: number = 0;
     det: number = 1;
 
@@ -41,16 +40,16 @@ class JordanOptimised {
     public initial(): void {
         console.log('\nInitial system:');
 
-        for(let i = 0; i < this.n; i++) {
+        for(let i = 0; i < this.A.length; i++) {
             const temp: number[] = [];
 
-            for(let j = 0; j < this.n; j++) {
+            for(let j = 0; j < this.A.length; j++) {
                 this.a[i][j] = this.A[i][j];
                 temp.push(Number(this.a[i][j].toFixed(2)));
             }
 
-            this.a[i][this.n] = this.A[i][this.n];
-            temp.push(this.a[i][this.n]);
+            this.a[i][this.A.length] = this.A[i][this.A.length];
+            temp.push(this.a[i][this.A.length]);
             console.log(temp);
         }
     }
@@ -58,18 +57,18 @@ class JordanOptimised {
     public step1(): void {
         let m: number;
 
-        for(let l = 0; l < this.n; l++) {
+        for(let l = 0; l < this.A.length; l++) {
             if (this.a[l][l] == 0){
                 m = l + 1;
 
-                while((this.a[m][l] == 0) && (m < this.n)) m++;
+                while((this.a[m][l] == 0) && (m < this.A.length)) m++;
 
-                if (m >= this.n){
+                if (m >= this.A.length){
                     console.log('Det = 0. The system doesnt have one solution')
                     return;
                 }
 
-                for (let j = 0; j <= this.n; j++){
+                for (let j = 0; j <= this.A.length; j++){
                     this.aux = this.a[m][j]; this.a[m][j] = this.a[l][j]; this.a[l][j] = this.aux;
                     this.det = -this.det;
                 }
@@ -77,14 +76,14 @@ class JordanOptimised {
 
             this.det = this.det * this.a[l][l];
 
-            for(let j = l+1; j <= this.n; j++)
+            for(let j = l+1; j <= this.A.length; j++)
                 this.a[l][j] /= this.a[l][l];
 
             this.a[l][l] = 1;
 
-            for(let i = 0; i < this.n; i++) {
+            for(let i = 0; i < this.A.length; i++) {
                 if (i !== l) {
-                    for(let j = l+1; j <= this.n; j++)
+                    for(let j = l+1; j <= this.A.length; j++)
                         this.a[i][j] = this.a[i][j] - this.a[i][l] * this.a[l][j];
                 }
             }
@@ -92,48 +91,48 @@ class JordanOptimised {
             for(let i = 0; i < l; i++)
                 this.a[i][l] = 0;
 
-            for(let i = l+1; i < this.n; i++)
+            for(let i = l+1; i < this.A.length; i++)
                 this.a[i][l] = 0;
-            console.log('\n The system in step ' + (l+1));
+            console.log('\A.length The system in step ' + (l+1));
 
-            for(let i = 0; i < this.n; i++) {
+            for(let i = 0; i < this.A.length; i++) {
                 const temp: number[] = [];
 
-                for(let j = 0; j < this.n; j++)
+                for(let j = 0; j < this.A.length; j++)
                     temp.push(Number((this.a[i][j]).toFixed(2)));
-                temp.push(Math.floor(this.a[i][this.n]));
+                temp.push(Math.floor(this.a[i][this.A.length]));
                 console.log(temp);
             }
 
         }
 
-        for (let j = 0; j < this.n; j++)
+        for (let j = 0; j < this.A.length; j++)
             this.det = this.det * this.a[j][j];
 
-        console.log('\n The determinant of the matrix is ' + this.det);
+        console.log('\A.length The determinant of the matrix is ' + this.det);
     }
 
     public step2(): void {
         const tempAux: number[] = [];
         const tempResolve: number[] = [];
 
-        for(let i = 0; i < this.n; i++) {
-            this.x[i] = this.a[i][this.n];
+        for(let i = 0; i < this.A.length; i++) {
+            this.x[i] = this.a[i][this.A.length];
         }
 
-        console.log('\n System resolve:');
+        console.log('\A.length System resolve:');
 
-        for(let i = 0; i < this.n; i++)
+        for(let i = 0; i < this.A.length; i++)
             tempResolve.push(Number(this.x[i].toFixed(2)));
 
         console.log(tempResolve);
 
-        console.log('\n Verification:')
+        console.log('\A.length Verification:')
 
-        for(let i = 0; i < this.n; i++) {
-            this.aux = -this.A[i][this.n];
+        for(let i = 0; i < this.A.length; i++) {
+            this.aux = -this.A[i][this.A.length];
 
-            for(let j = 0; j < this.n; j++)
+            for(let j = 0; j < this.A.length; j++)
                 this.aux = this.aux + this.A[i][j] * this.x[j];
 
             tempAux.push(this.aux);

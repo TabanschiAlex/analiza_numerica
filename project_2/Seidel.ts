@@ -1,17 +1,26 @@
 class Seidel {
     readonly eps: number;
-    readonly matrixA: number[][] = [
-        [72, 2, 4, 2, 5, 1],
-        [3, 73, 1, 3, 1, 2],
-        [4, 1, 74, 1, 2, 3],
-        [1, 3, 2, 75, 3, 4],
-        [2, 1, 1, 3, 74, 5]
-    ];
-    initialValues: number[] = [0, 0, 0, 0, 0];
+    matrixA: number[][];
+    initialValues: number[];
 
     constructor(eps: number) {
         this.eps = eps;
-        this.resolve();
+
+        /*"71, 2, 3, -4, 4, 241; 4, 72, -5, 5, 2, 396; -3, 2, 73, 1, -3, 130; 3, 2, 1, 74, 1, 324; 4, -4, 3, 2, 75, 531"*/
+        document.getElementById("sendBtn").addEventListener('click', () => {
+            // @ts-ignore
+            const textField = document.getElementById("textField").value;
+            const array = textField.trim().split(";");
+            this.matrixA = [];
+            this.initialValues = []
+
+            for (const elem of array) {
+                this.matrixA.push(elem.trim().replaceAll(" ", "").split(",").map(x => +x));
+                this.initialValues.push(0);
+            }
+
+            this.resolve();
+        });
     }
 
     init(): void {
@@ -26,6 +35,8 @@ class Seidel {
 
             console.log(temp);
         }
+
+        console.log("---------------------------------------")
     }
 
     pivot(): void {
@@ -43,15 +54,14 @@ class Seidel {
     }
 
     calculate(): void {
-        let count: number = 0;
         let flag: number = 0;
         let y: number;
+        let count: number = 0;
 
         do {
             const temp: any[] = [];
-            temp.push(count + 1 + ') ');
 
-            for (let i = 0;i < this.matrixA.length; i++) {
+            for (let i = 0; i < this.matrixA.length; i++) {
                 y = this.initialValues[i];
                 this.initialValues[i] = this.matrixA[i][this.matrixA.length];
 
@@ -67,15 +77,15 @@ class Seidel {
                 temp.push(this.initialValues[i]);
             }
 
+            console.log("Iteration " + (++count))
             console.log(temp)
 
-            count++;
         } while(flag < this.matrixA.length);
     }
 
     resolve(): void {
         console.log('Project Nr.2 by Tabanschi Alexandru');
-        console.log('Application of the Seidel method');
+        console.log('The Seidel method');
 
         this.init();
         this.pivot();
@@ -89,4 +99,7 @@ class Seidel {
 
 }
 
-new Seidel(0.0001);
+new Seidel(1e-12);
+
+
+

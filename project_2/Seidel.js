@@ -1,15 +1,21 @@
 var Seidel = /** @class */ (function () {
     function Seidel(eps) {
-        this.matrixA = [
-            [72, 2, 4, 2, 5, 1],
-            [3, 73, 1, 3, 1, 2],
-            [4, 1, 74, 1, 2, 3],
-            [1, 3, 2, 75, 3, 4],
-            [2, 1, 1, 3, 74, 5]
-        ];
-        this.initialValues = [0, 0, 0, 0, 0];
+        var _this = this;
         this.eps = eps;
-        this.resolve();
+        /*"71, 2, 3, -4, 4, 241; 4, 72, -5, 5, 2, 396; -3, 2, 73, 1, -3, 130; 3, 2, 1, 74, 1, 324; 4, -4, 3, 2, 75, 531"*/
+        document.getElementById("sendBtn").addEventListener('click', function () {
+            // @ts-ignore
+            var textField = document.getElementById("textField").value;
+            var array = textField.trim().split(";");
+            _this.matrixA = [];
+            _this.initialValues = [];
+            for (var _i = 0, array_1 = array; _i < array_1.length; _i++) {
+                var elem = array_1[_i];
+                _this.matrixA.push(elem.trim().replaceAll(" ", "").split(",").map(function (x) { return +x; }));
+                _this.initialValues.push(0);
+            }
+            _this.resolve();
+        });
     }
     Seidel.prototype.init = function () {
         console.log('\nInitial Matrix:');
@@ -20,6 +26,7 @@ var Seidel = /** @class */ (function () {
             }
             console.log(temp);
         }
+        console.log("---------------------------------------");
     };
     Seidel.prototype.pivot = function () {
         for (var i = 0; i < this.matrixA.length; i++) {
@@ -35,12 +42,11 @@ var Seidel = /** @class */ (function () {
         }
     };
     Seidel.prototype.calculate = function () {
-        var count = 0;
         var flag = 0;
         var y;
+        var count = 0;
         do {
             var temp = [];
-            temp.push(count + 1 + ') ');
             for (var i = 0; i < this.matrixA.length; i++) {
                 y = this.initialValues[i];
                 this.initialValues[i] = this.matrixA[i][this.matrixA.length];
@@ -53,13 +59,13 @@ var Seidel = /** @class */ (function () {
                     flag++;
                 temp.push(this.initialValues[i]);
             }
+            console.log("Iteration " + (++count));
             console.log(temp);
-            count++;
         } while (flag < this.matrixA.length);
     };
     Seidel.prototype.resolve = function () {
         console.log('Project Nr.2 by Tabanschi Alexandru');
-        console.log('Application of the Seidel method');
+        console.log('The Seidel method');
         this.init();
         this.pivot();
         this.calculate();
@@ -69,4 +75,4 @@ var Seidel = /** @class */ (function () {
     };
     return Seidel;
 }());
-new Seidel(0.0001);
+new Seidel(1e-12);
