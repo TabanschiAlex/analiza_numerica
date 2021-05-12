@@ -174,12 +174,22 @@ class Equations {
         return x;
     }
 
-    f (x): number {
+    f(x): number {
         return x*x*x + 5*(x*x) - 35*x - 175;
     }
 
-    fi (x): number {
-        return 1;
+    fi(x): number {
+        const ym: number = 35*x + 175 - 5 * x * x;
+
+        if (x > 0) {
+            return Math.pow(ym * ym, 1 / 6);
+        }
+
+        if (x > -5) {
+            return (Math.pow(x, 3) + 5 * x * x - 175) / 35;
+        }
+
+        return -1 * Math.pow(ym * ym, 1 / 6);
     }
 
     fpr (x): number {
@@ -211,24 +221,27 @@ class Equations {
         table.append(tr);
     }
 
-    /*iterations(a, b): number { // iteratiilor
-        this.k = 0;
-        let xO = (a + b) / 2;
-        let x;
-        let d;
+    iterations(a, b): Interval { // iteratiilor
+        const res: Interval = {left: undefined, right: undefined}
+        let x0, x, delta;
+        let k = 0;
+        x0 = a;
 
         do {
-            this.k++;
-            /!*x = equations.fi(xO);*!/
+            k++;
+            x = this.fi(x0);
+            res.left = k;
+            res.right = x;
+            if (Math.abs(this.f(x)) < this.eps) return res;
+            delta = Math.abs(x - x0);
+            x0 = x;
+        } while (delta > this.eps);
 
-            if (this.f(x) === 0) return x;
+        res.left = k;
+        res.right = x;
 
-            d = Math.abs(x - xO);
-            xO = x;
-        } while (d > this.eps);
-
-        return x;
-    }*/
+        return res;
+    }
 }
 
 const equations = new Equations(-7, 7, 0.07, 0);

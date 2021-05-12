@@ -136,7 +136,14 @@ var Equations = /** @class */ (function () {
         return x * x * x + 5 * (x * x) - 35 * x - 175;
     };
     Equations.prototype.fi = function (x) {
-        return 1;
+        var ym = 35 * x + 175 - 5 * x * x;
+        if (x > 0) {
+            return Math.pow(ym * ym, 1 / 6);
+        }
+        if (x > -5) {
+            return (Math.pow(x, 3) + 5 * x * x - 175) / 35;
+        }
+        return -1 * Math.pow(ym * ym, 1 / 6);
     };
     Equations.prototype.fpr = function (x) {
         return 3 * x * x + 10 * x - 35;
@@ -160,6 +167,25 @@ var Equations = /** @class */ (function () {
             tr.append(td);
         }
         table.append(tr);
+    };
+    Equations.prototype.iterations = function (a, b) {
+        var res = { left: undefined, right: undefined };
+        var x0, x, delta;
+        var k = 0;
+        x0 = a;
+        do {
+            k++;
+            x = this.fi(x0);
+            res.left = k;
+            res.right = x;
+            if (Math.abs(this.f(x)) < this.eps)
+                return res;
+            delta = Math.abs(x - x0);
+            x0 = x;
+        } while (delta > this.eps);
+        res.left = k;
+        res.right = x;
+        return res;
     };
     return Equations;
 }());
