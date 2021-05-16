@@ -1,5 +1,8 @@
 var Simpson = /** @class */ (function () {
-    function Simpson(eps) {
+    function Simpson(a, b, n, eps) {
+        this.a = a;
+        this.b = b;
+        this.n = n;
         this.eps = eps;
         this.resolve();
     }
@@ -24,7 +27,7 @@ var Simpson = /** @class */ (function () {
         if (occasion === void 0) { occasion = 'a'; }
         return (b - a) / 6 * (this.f(a, occasion) + 4 * this.f((a + b) / 2, occasion) + this.f(b, occasion));
     };
-    Simpson.prototype.range = function (a, b, occasion) {
+    Simpson.prototype.runge = function (a, b, occasion) {
         if (occasion === void 0) { occasion = 'a'; }
         var i, x, S0, S, h;
         this.k = 1;
@@ -44,62 +47,60 @@ var Simpson = /** @class */ (function () {
         return S;
     };
     Simpson.prototype.resolve = function () {
-        var a = 1, b = 5;
         var S, R, I, x, h, i;
-        var n = 100;
         console.log("Project Nr.4 by Tabanschi Alexandru");
         console.log("Approximate calculation of defined integrals\n");
-        S = this.simpson(a, b);
-        console.log("a) Valoarea aproximativa a integralei, identica cu cea exacta: " + S);
-        h = (b - a) / n;
-        x = a;
+        S = this.simpson(this.a, this.b);
+        console.log("a) The approximate value of the integral, identical to the exact one: " + S);
+        h = (this.b - this.a) / this.n;
+        x = this.a;
         S = 0;
-        for (i = 1; i <= n; i++) {
+        for (i = 1; i <= this.n; i++) {
             S = S + this.simpson(x, x + h);
             x += h;
         }
-        console.log("Formula generalizata: Valoarea aproximativa a integralei: " + S);
-        S = this.simpson(a, b, 'b');
-        R = Math.pow((b - a) / 2, 5) * this.df(a, 'b') / 90;
+        console.log("Generalized formula: Approximate value of the integral: " + S);
+        S = this.simpson(this.a, this.b, 'b');
+        R = Math.pow((this.b - this.a) / 2, 5) * this.df(this.a, 'b') / 90;
         I = S + R;
-        console.log("\nb) Valoarea aproximativa a integralei: " + S);
-        console.log("Valoarea termenului de rest: " + R);
-        console.log("Valoarea exacta a integralei: " + I);
-        x = a;
+        console.log("\nb) Approximate value of the integral: " + S);
+        console.log("The value of the rest term: " + R);
+        console.log("The exact value of the integral: " + I);
+        x = this.a;
         S = 0;
-        for (i = 1; i <= n; i++) {
+        for (i = 1; i <= this.n; i++) {
             S = S + this.simpson(x, x + h, 'b');
             x += h;
         }
-        R = Math.pow((b - a) / 2, 5) * this.df(a, 'b') / (90 * n * n * n * n);
+        R = Math.pow((this.b - this.a) / 2, 5) * this.df(this.a, 'b') / (90 * this.n * this.n * this.n * this.n);
         I = S + R;
-        console.log("Formula generalizata: Valoarea aproximativa a integralei: " + S);
-        console.log("Valoarea termenului de rest: " + R);
-        console.log("Valoarea exacta a integralei: " + I);
-        S = this.range(a, b, 'b');
-        console.log("Regula Runge: Valoarea aproximativa a integralei dupa " + this.k + " diviziuni: " + S.toFixed(16));
-        S = this.simpson(a, b, 'c');
-        R = Math.pow((b - a) / 2, 5) * this.df(b, 'c') / 90;
+        console.log("Generalized formula: Approximate value of the integral: " + S);
+        console.log("The value of the rest term: " + R);
+        console.log("The exact value of the integral: " + I);
+        S = this.runge(this.a, this.b, 'b');
+        console.log("Runge rule: The approximate value of the integral after " + this.k + " divisions: " + S.toFixed(16));
+        S = this.simpson(this.a, this.b, 'c');
+        R = Math.pow((this.b - this.a) / 2, 5) * this.df(this.b, 'c') / 90;
         I = S + R;
-        console.log("\nc) Valoarea aproximativa a integralei: " + S);
-        console.log("Valoarea maximala a termenului de rest: " + R);
-        console.log("Valoarea exacta a integralei este intre " + S + " si " + I);
-        x = a;
+        console.log("\nc) Approximate value of the integral: " + S);
+        console.log("The value of the rest term: " + R);
+        console.log("The exact value of the integral " + S + " si " + I);
+        x = this.a;
         S = 0;
-        for (i = 1; i <= n; i++) {
+        for (i = 1; i <= this.n; i++) {
             S = S + this.simpson(x, x + h, 'c');
             x += h;
         }
-        R = Math.pow((b - a) / 2, 5) * this.df(b, 'c') / (90 * n * n * n * n);
+        R = Math.pow((this.b - this.a) / 2, 5) * this.df(this.b, 'c') / (90 * this.n * this.n * this.n * this.n);
         I = S + R;
-        console.log("Formula generalizata: Valoarea aproximativa a integralei: " + S);
-        console.log("Valoarea termenului de rest: " + R);
-        console.log("Valoarea exacta a integralei este intre " + S + " si " + I);
-        S = this.range(a, b, 'c');
-        console.log("Regula Runge: Valoarea aproximativa a integralei dupa " + this.k + " diviziuni: " + S.toFixed(16));
-        S = this.range(a, b, 'd');
-        console.log("\nd) Regula Runge: Valoarea aproximativa a integralei dupa " + this.k + " diviziuni: " + S.toFixed(16));
+        console.log("Generalized formula: Approximate value of the integral: " + S);
+        console.log("The value of the rest term: " + R);
+        console.log("The exact value of the integral is between " + S + " and " + I);
+        S = this.runge(this.a, this.b, 'c');
+        console.log("Runge rule: The approximate value of the integral after " + this.k + " divisions: " + S.toFixed(16));
+        S = this.runge(this.a, this.b, 'd');
+        console.log("\nd) Runge rule: The approximate value of the integral after " + this.k + " divisions: " + S.toFixed(16));
     };
     return Simpson;
 }());
-new Simpson(1e-9);
+new Simpson(1, 5, 10, 10e-9);
